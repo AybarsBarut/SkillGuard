@@ -3,14 +3,14 @@
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "`n🛡️  SkillGuard Kurulumu Başlatılıyor... / Initializing SkillGuard Installation..." -ForegroundColor Cyan
+Write-Host "`n[SKILLGUARD] Initializing SkillGuard Installation..." -ForegroundColor Cyan
 
 # 1. Check Python
 try {
     $pyVer = python --version 2>&1
-    Write-Host "✅ Python tespit edildi: $pyVer" -ForegroundColor Green
+    Write-Host "[OK] Python detected: $pyVer" -ForegroundColor Green
 } catch {
-    Write-Host "❌ Python 3.10+ bulunamadı! Lütfen Python'ı yükleyin ve PATH'e ekleyin." -ForegroundColor Red
+    Write-Host "[ERROR] Python 3.10+ not found! Please install Python and add it to PATH." -ForegroundColor Red
     exit 1
 }
 
@@ -20,7 +20,7 @@ if (Test-Path "SKILL.md") {
     # Running from inside the cloned repo
     $targetDir = $PWD
 } else {
-    Write-Host "📁 SkillGuard yerel ortama kopyalanıyor: $targetDir" -ForegroundColor Yellow
+    Write-Host "[INFO] Copying SkillGuard to local environment: $targetDir" -ForegroundColor Yellow
     New-Item -ItemType Directory -Force -Path $targetDir | Out-Null
     
     # Clone or fetch repo
@@ -29,11 +29,11 @@ if (Test-Path "SKILL.md") {
 }
 
 # 3. Run hook installer
-Write-Host "⚙️  Git ve Agent yaşam döngüsü hook'ları kuruluyor..." -ForegroundColor Yellow
+Write-Host "[INFO] Installing Git and Agent lifecycle hooks..." -ForegroundColor Yellow
 python "$targetDir/scripts/install_hooks.py" --dir $PWD
 
 # 4. Success message
-Write-Host "`n🎉 SkillGuard Başarıyla Kuruldu!" -ForegroundColor Green
-Write-Host "   - Git Pre-Commit/Push Hook'ları: Aktif" -ForegroundColor Gray
-Write-Host "   - Antigravity & Agent Hook'ları: Aktif (.agents/hooks.json)" -ForegroundColor Gray
-Write-Host "   - Güvenlik Raporu Üretmek İçin: python scripts/report.py`n" -ForegroundColor Cyan
+Write-Host "`n[OK] SkillGuard Successfully Installed!" -ForegroundColor Green
+Write-Host "   - Git Pre-Commit/Push Hooks: Active" -ForegroundColor Gray
+Write-Host "   - Antigravity & Agent Hooks: Active (.agents/hooks.json)" -ForegroundColor Gray
+Write-Host "   - To Generate Security Report: python scripts/report.py`n" -ForegroundColor Cyan

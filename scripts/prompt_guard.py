@@ -118,8 +118,8 @@ def format_deterministic_alert(
     """
     if not findings:
         if language == "tr":
-            return f'🛡️ SkillGuard: "{skill_name}" tarandı, sorun bulunamadı.'
-        return f'🛡️ SkillGuard: "{skill_name}" scanned, no security issues detected.'
+            return f'[SKILLGUARD] "{skill_name}" tarandi, sorun bulunamadi.'
+        return f'[SKILLGUARD] "{skill_name}" scanned, no security issues detected.'
 
     count = len(findings)
     # Sort findings by severity
@@ -129,9 +129,9 @@ def format_deterministic_alert(
     top_severity = top_finding.get("severity", "MEDIUM")
 
     if language == "tr":
-        summary_title = f"🛡️ SKILLGUARD {count} zararlı veya şüpheli prompt buldu."
-        action_taken = "Skill engellendi ve karantinaya alındı. Bu talimatı uygulamadım." if top_severity == "CRITICAL" else "İşlem durduruldu, kullanıcı onayı bekleniyor."
-        options = "1) Detayları göster   2) Skill'i sil   3) Karantinada tut"
+        summary_title = f"[SKILLGUARD] {count} zararli veya supheli prompt buldu."
+        action_taken = "Skill engellendi ve karantinaya alindi. Bu talimati uygulamadim." if top_severity == "CRITICAL" else "Islem durduruldu, kullanici onayi bekleniyor."
+        options = "1) Detaylari goster   2) Skill'i sil   3) Karantinada tut"
         if top_severity != "CRITICAL":
             options += "   4) Riski kabul edip devam et"
 
@@ -139,11 +139,11 @@ def format_deterministic_alert(
             summary_title,
             "",
             f'Skill: "{skill_name}"  ({top_finding.get("file", "SKILL.md")}:{top_finding.get("line", 1)})',
-            f'Ne yapmaya çalışıyor: {top_finding.get("why_dangerous", "Şüpheli güvenlik ihlali gerçekleştirilmeye çalışılıyor.")}',
+            f'Ne yapmaya calisiyor: {top_finding.get("why_dangerous", "Supheli guvenlik ihlali gerceklestirilmeye calisiliyor.")}',
             f'Seviye: {top_severity}',
-            f'Aldığım önlem: {action_taken}',
+            f'Aldigim onlem: {action_taken}',
             "",
-            "Kanıt (kısaltılmış ve etkisizleştirilmiş):",
+            "Kanit (kisaltilmis ve etkisizlestirilmis):",
             f'  "{sanitize_evidence(top_finding.get("evidence", ""))}"',
             "",
             "Ne yapabilirsin:",
@@ -151,7 +151,7 @@ def format_deterministic_alert(
         ]
         return "\n".join(lines)
     else:
-        summary_title = f"🛡️ SKILLGUARD detected {count} malicious or suspicious prompt finding(s)."
+        summary_title = f"[SKILLGUARD] Detected {count} malicious or suspicious prompt finding(s)."
         action_taken = "Skill blocked and quarantined. Instruction execution halted." if top_severity == "CRITICAL" else "Operation halted pending explicit user confirmation."
         options = "1) Show details   2) Delete skill   3) Keep in quarantine"
         if top_severity != "CRITICAL":

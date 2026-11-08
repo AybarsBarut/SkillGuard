@@ -554,7 +554,7 @@ def run_push_check(
     if has_critical:
         rotation_notice = (
             "\n" + "=" * 70 + "\n"
-            "🚨 CRITICAL SECURITY ROTATION WARNING:\n"
+            "[CRITICAL SECURITY ROTATION WARNING]\n"
             "If any of these secrets were previously committed or pushed to a remote git branch,\n"
             "sanitizing the code DOES NOT protect you! The secret must be IMMEDIATELY REVOKED/ROTATED\n"
             "at the service provider (AWS, GitHub, Stripe, OpenAI, etc.).\n"
@@ -605,9 +605,9 @@ def main():
         print(json.dumps(result, indent=2, ensure_ascii=False))
     else:
         if result["findings_count"] == 0:
-            print("🛡️ SkillGuard Push Check: Clean. No leaked secrets or forbidden files found.")
+            print("[SKILLGUARD] Push Check: Clean. No leaked secrets or forbidden files found.")
         else:
-            print(f"🛡️ SkillGuard Push Check: Found {result['findings_count']} potential secret/security finding(s):")
+            print(f"[SKILLGUARD] Push Check: Found {result['findings_count']} potential secret/security finding(s):")
             for f in result["findings"]:
                 print(f"  [{f['severity']}] {f['name']} ({f['file']}:{f['line']})")
                 print(f"    Evidence: {f['evidence']}")
@@ -616,7 +616,7 @@ def main():
                 print(result["rotation_notice"])
 
             if result["sanitized_records"]:
-                print(f"\n✅ Automatically sanitized {len(result['sanitized_records'])} file(s).")
+                print(f"\n[OK] Automatically sanitized {len(result['sanitized_records'])} file(s).")
                 print(f"Original content backed up to .skillguard/vault/. Run with --undo to revert.")
 
         print(f"\nFinal Verdict: {result['verdict']}")

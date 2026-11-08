@@ -87,10 +87,10 @@ def run_all_evals() -> bool:
     passed_count = 0
     total = len(scenarios)
 
-    print(f"🛡️ SkillGuard Evaluation Benchmark ({total} Scenarios)\n" + "=" * 60)
+    print(f"[SKILLGUARD] Evaluation Benchmark ({total} Scenarios)\n" + "=" * 60)
     for s in scenarios:
         ok, msg = execute_scenario(s)
-        status = "✅ PASS" if ok else "❌ FAIL"
+        status = "[PASS]" if ok else "[FAIL]"
         if ok:
             passed_count += 1
         print(f"{status} [{s['id']}] {s['description']}")

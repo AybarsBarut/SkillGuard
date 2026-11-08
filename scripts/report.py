@@ -97,69 +97,69 @@ def generate_markdown_report(data: Dict[str, Any], lang: str = "tr") -> str:
     top_3 = sorted_findings[:3]
 
     if lang == "tr":
-        badge = "🔴 BLOKLANDI" if verdict in ["BLOCK", "BLOCK_PUSH", "BLOCK_DEPLOY"] else ("🟡 ONAY / DİKKAT" if verdict in ["CONFIRM", "WARN"] else "🟢 TEMİZ")
+        badge = "[BLOKLANDI]" if verdict in ["BLOCK", "BLOCK_PUSH", "BLOCK_DEPLOY"] else ("[ONAY_GEREKLI]" if verdict in ["CONFIRM", "WARN"] else "[TEMIZ]")
         lines = [
-            "# 🛡️ SKILLGUARD GÜVENLİK DENETİM RAPORU",
+            "# [SKILLGUARD] GUVENLIK DENETIM RAPORU",
             f"**Tarih:** {now_str}  |  **Genel Karar:** {badge} (`{verdict}`)",
             "",
             "---",
             "",
-            "## 🚨 En Kritik Riskler (Top 3)",
+            "## En Kritik Riskler (Top 3)",
         ]
         if not top_3:
-            lines.append("Harika haber! Projede açıkta bekleyen kritik bir güvenlik riski bulunamadı.")
+            lines.append("Projede acikta bekleyen kritik bir guvenlik riski bulunamadi.")
         else:
             for idx, item in enumerate(top_3, start=1):
                 lines.extend([
                     f"### {idx}. [{item.get('severity')}] {item.get('name')}",
                     f"- **Konum:** `{item.get('file', 'repo')}:{item.get('line', 0)}`",
                     f"- **Neden Tehlikeli:** {item.get('why_dangerous', item.get('summary', ''))}",
-                    f"- **Kanıt:** `{item.get('evidence', '')[:140]}`",
-                    f"- **Nasıl Düzeltilir:** {item.get('remediation', '')}",
+                    f"- **Kanit:** `{item.get('evidence', '')[:140]}`",
+                    f"- **Nasil Duzeltilir:** {item.get('remediation', '')}",
                     "",
                 ])
 
         lines.extend([
             "---",
             "",
-            "## 📊 Modüler Güvenlik Durumu",
-            f"- **Taranan Skill / Prompt Bulguları:** {data.get('skill_findings_count', 0)}",
-            f"- **Push Öncesi Sır ve Dosya Bulguları:** {data.get('push_findings_count', 0)}",
-            f"- **Veritabanı Hijyeni ve Açıkları:** {data.get('db_findings_count', 0)}",
-            f"- **Bağımlılık CVE / Güvenlik Bildirileri:** {data.get('stack_findings_count', 0)}",
-            f"- **Yapay Zeka Gizlilik ve İfşa Durumu:** {'⚠️ İfşa/Watermark Tespit Edildi' if any(f.get('id', '').startswith('PRV-') for f in findings) else '✅ Tamamen Gizli (Sıfır İz)'}",
+            "## Moduler Guvenlik Durumu",
+            f"- **Taranan Skill / Prompt Bulgulari:** {data.get('skill_findings_count', 0)}",
+            f"- **Push Oncesi Sir ve Dosya Bulgulari:** {data.get('push_findings_count', 0)}",
+            f"- **Veritabani Hijyeni ve Aciklari:** {data.get('db_findings_count', 0)}",
+            f"- **Bagimlilik CVE / Guvenlik Bildirileri:** {data.get('stack_findings_count', 0)}",
+            f"- **Yapay Zeka Gizlilik ve Ifsa Durumu:** {'[UYARI] Ifsa Tespit Edildi' if any(f.get('id', '').startswith('PRV-') for f in findings) else '[OK] Tamamen Gizli (Sifir Iz)'}",
             "",
             "---",
             "",
-            "## 📋 Tüm Bulguların Listesi",
+            "## Tum Bulgularin Listesi",
         ])
         if not sorted_findings:
-            lines.append("Temiz! Hiçbir güvenlik bulgusu kaydedilmedi.")
+            lines.append("Temiz. Hicbir guvenlik bulgusu kaydedilmedi.")
         else:
             for f in sorted_findings:
                 lines.extend([
                     f"#### [{f.get('severity')}] {f.get('name')} (`{f.get('id')}`)",
                     f"- **Dosya:** `{f.get('file', 'repo')}:{f.get('line', 0)}`",
-                    f"- **Açıklama:** {f.get('why_dangerous', f.get('summary', ''))}",
-                    f"- **Eylem / Çözüm:** {f.get('remediation', '')}",
+                    f"- **Aciklama:** {f.get('why_dangerous', f.get('summary', ''))}",
+                    f"- **Eylem / Cozum:** {f.get('remediation', '')}",
                     "",
                 ])
 
         lines.extend([
             "---",
-            "*Bu rapor SkillGuard güvenlik motoru tarafından bağımsız olarak üretilmiştir. "
-            "Daha fazla detay için: `python scripts/report.py --json`*",
+            "*Bu rapor SkillGuard guvenlik motoru tarafindan bagimsiz olarak uretilmistir. "
+            "Daha fazla detay icin: `python scripts/report.py --json`*",
         ])
         return "\n".join(lines)
     else:
-        badge = "🔴 BLOCKED" if verdict in ["BLOCK", "BLOCK_PUSH", "BLOCK_DEPLOY"] else ("🟡 CONFIRM / CAUTION" if verdict in ["CONFIRM", "WARN"] else "🟢 CLEAN")
+        badge = "[BLOCKED]" if verdict in ["BLOCK", "BLOCK_PUSH", "BLOCK_DEPLOY"] else ("[CONFIRM]" if verdict in ["CONFIRM", "WARN"] else "[CLEAN]")
         lines = [
-            "# 🛡️ SKILLGUARD SECURITY AUDIT REPORT",
+            "# [SKILLGUARD] SECURITY AUDIT REPORT",
             f"**Generated:** {now_str}  |  **Overall Verdict:** {badge} (`{verdict}`)",
             "",
             "---",
             "",
-            "## 🚨 Top 3 Critical Risks",
+            "## Top 3 Critical Risks",
         ]
         if not top_3:
             lines.append("No critical security risks identified in the workspace.")
@@ -177,16 +177,16 @@ def generate_markdown_report(data: Dict[str, Any], lang: str = "tr") -> str:
         lines.extend([
             "---",
             "",
-            "## 📊 Security Posture by Module",
+            "## Security Posture by Module",
             f"- **Skill & Prompt Findings:** {data.get('skill_findings_count', 0)}",
             f"- **Push Secrets & Leaked Keys:** {data.get('push_findings_count', 0)}",
             f"- **Database Hygiene & SQLi:** {data.get('db_findings_count', 0)}",
             f"- **Dependency CVEs & Advisories:** {data.get('stack_findings_count', 0)}",
-            f"- **AI Agent Provenance Status:** {'⚠️ Attribution Leak Detected' if any(f.get('id', '').startswith('PRV-') for f in findings) else '✅ Stealth Verified (Zero Attribution)'}",
+            f"- **AI Agent Provenance Status:** {'[WARNING] Attribution Leak Detected' if any(f.get('id', '').startswith('PRV-') for f in findings) else '[OK] Stealth Verified (Zero Attribution)'}",
             "",
             "---",
             "",
-            "## 📋 Comprehensive Findings",
+            "## Comprehensive Findings",
         ])
         if not sorted_findings:
             lines.append("Clean. Zero findings detected.")
@@ -286,7 +286,7 @@ def main():
     if args.json:
         print(json.dumps(report, indent=2, ensure_ascii=False))
     else:
-        print(f"🛡️ SkillGuard: Generated SECURITY_REPORT.md, security-report.json, and security-report.sarif")
+        print(f"[SKILLGUARD] Generated SECURITY_REPORT.md, security-report.json, and security-report.sarif")
         print(f"Overall Verdict: {report['overall_verdict']} | Total Findings: {report['total_findings']}")
 
 

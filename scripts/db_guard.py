@@ -384,23 +384,23 @@ def main():
         print(json.dumps(report, indent=2, ensure_ascii=False))
     else:
         if args.lang == "tr":
-            print(f"🛡️ SKILLGUARD Veritabanı Güvenlik Denetimi")
-            print(f"Tespit Edilen Yığın: {', '.join(report['technologies']) if report['technologies'] else 'Veritabanı izi bulunamadı'}")
+            print(f"[SKILLGUARD] Veritabani Guvenlik Denetimi")
+            print(f"Tespit Edilen Yigin: {', '.join(report['technologies']) if report['technologies'] else 'Veritabani izi bulunamadi'}")
             print(f"Risk Seviyesi: {report['exposure_level']} (Bulgu: {report['findings_count']})\n")
             if report["findings"]:
-                print("Bulunan Güvenlik Açıkları:")
+                print("Bulunan Guvenlik Aciklari:")
                 for f in report["findings"]:
                     print(f"  [{f['severity']}] {f['name']} ({f['file']}:{f['line']})")
-                    print(f"    Kanıt: {f['evidence']}")
-                    print(f"    Nasıl Düzeltilir: {f['remediation']}\n")
+                    print(f"    Kanit: {f['evidence']}")
+                    print(f"    Nasil Duzeltilir: {f['remediation']}\n")
             else:
-                print("✅ Veritabanı güvenlik açığı, açıkta port veya SQL injection riski bulunamadı.\n")
+                print("[OK] Veritabani guvenlik acigi, acikta port veya SQL injection riski bulunamadi.\n")
 
-            print("Mimari Güvenlik Tavsiyeleri:")
+            print("Mimari Guvenlik Tavsiyeleri:")
             for r in report["recommendations"]:
                 print(f"  {r}")
         else:
-            print(f"🛡️ SKILLGUARD Database Security Audit")
+            print(f"[SKILLGUARD] Database Security Audit")
             print(f"Detected Stack: {', '.join(report['technologies']) if report['technologies'] else 'No database indicators detected'}")
             print(f"Exposure Level: {report['exposure_level']} (Findings: {report['findings_count']})\n")
             if report["findings"]:
@@ -410,7 +410,7 @@ def main():
                     print(f"    Evidence: {f['evidence']}")
                     print(f"    Remediation: {f['remediation']}\n")
             else:
-                print("✅ No database exposure, weak credentials, or SQL injection risks identified.\n")
+                print("[OK] No database exposure, weak credentials, or SQL injection risks identified.\n")
 
             print("Architectural Recommendations:")
             for r in report["recommendations"]:

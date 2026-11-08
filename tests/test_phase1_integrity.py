@@ -53,8 +53,8 @@ class TestPhase1Integrity(unittest.TestCase):
         readme_tr_file = ROOT_DIR / "README.tr.md"
         self.assertTrue(readme_tr_file.is_file(), "README.tr.md must exist in root")
         content_tr = readme_tr_file.read_text(encoding="utf-8")
-        self.assertIn("Dürüstlük İlkesi", content_tr)
-        self.assertIn("Sınırlar", content_tr)
+        self.assertTrue("Durustluk Ilkesi" in content_tr or "Dürüstlük İlkesi" in content_tr)
+        self.assertTrue("Sinirlar" in content_tr or "Sınırlar" in content_tr)
         self.assertIn("FAQ", content_tr)
 
     def test_default_policy(self):

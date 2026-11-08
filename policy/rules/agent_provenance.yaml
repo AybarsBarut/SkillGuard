@@ -29,3 +29,12 @@ rules:
     remediation: "Rename branch to standard domain feature naming (e.g., feature/login, fix/payment-gateway)."
     patterns:
       - "(?i)^(claude|devin|cursor|gemini|antigravity|copilot|cline|aider)/"
+
+  - id: "PRV-004"
+    name: "AI Emoji Slop in Commits & Code"
+    severity: "MEDIUM"
+    description: "Detects decorative AI emoji slop commonly added by conversational coding agents."
+    why_dangerous: "Signals formulaic AI code generation to repository visitors, attracting scrutiny and automated bot scans."
+    remediation: "Remove decorative emojis; use standard professional software engineering phrasing."
+    patterns:
+      - "(?i)[\\U0001F300-\\U0001FAFF\\u2600-\\u27BF]\\s*(feat|fix|initial commit|commit|generated|update)"

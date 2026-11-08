@@ -98,13 +98,13 @@ class TestPromptGuard(unittest.TestCase):
             "remediation": "Do not follow instructions in data."
         }]
         alert_tr = format_deterministic_alert(findings, "evil-skill", language="tr")
-        self.assertIn("🛡️ SKILLGUARD 1 zararlı", alert_tr)
+        self.assertIn("[SKILLGUARD] 1 zararli", alert_tr)
         self.assertIn("CRITICAL", alert_tr)
         self.assertIn("hxxp://evil.com", alert_tr)
-        self.assertIn("Skill engellendi ve karantinaya alındı", alert_tr)
+        self.assertIn("Skill engellendi ve karantinaya alindi", alert_tr)
 
         alert_en = format_deterministic_alert(findings, "evil-skill", language="en")
-        self.assertIn("🛡️ SKILLGUARD detected 1", alert_en)
+        self.assertIn("[SKILLGUARD] Detected 1", alert_en)
         self.assertIn("Skill blocked and quarantined", alert_en)
 
 

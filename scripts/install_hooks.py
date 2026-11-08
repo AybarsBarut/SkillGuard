@@ -30,7 +30,7 @@ python scripts/sanitize_push.py --staged
 EXIT_CODE=$?
 
 if [ $EXIT_CODE -ne 0 ]; then
-    echo "❌ SkillGuard: Staged commit blocked due to security violations."
+    echo "[BLOCK] SkillGuard: Staged commit blocked due to security violations."
     exit $EXIT_CODE
 fi
 """
@@ -42,14 +42,14 @@ GIT_PRE_PUSH_SCRIPT = """#!/bin/sh
 python scripts/sanitize_push.py --staged
 SAN_EXIT=$?
 if [ $SAN_EXIT -ne 0 ]; then
-    echo "❌ SkillGuard: Push blocked due to unhandled secrets or forbidden files."
+    echo "[BLOCK] SkillGuard: Push blocked due to unhandled secrets or forbidden files."
     exit $SAN_EXIT
 fi
 
 python scripts/db_guard.py
 DB_EXIT=$?
 if [ $DB_EXIT -eq 2 ]; then
-    echo "❌ SkillGuard: Push blocked due to critical database security findings."
+    echo "[BLOCK] SkillGuard: Push blocked due to critical database security findings."
     exit $DB_EXIT
 fi
 """
@@ -198,7 +198,7 @@ def main():
     installer = HookInstaller(workspace_root=Path(args.dir), dry_run=args.dry_run)
 
     if args.uninstall:
-        print("🛡️ SkillGuard: Uninstalling hooks...")
+        print("[SKILLGUARD] Uninstalling hooks...")
         logs = installer.uninstall_all()
         for l in logs:
             print(f"  {l}")
@@ -206,7 +206,7 @@ def main():
         sys.exit(0)
 
     mode_label = "[DRY-RUN] " if args.dry_run else ""
-    print(f"🛡️ SkillGuard: {mode_label}Installing lifecycle and git hooks...")
+    print(f"[SKILLGUARD] {mode_label}Installing lifecycle and git hooks...")
     res = installer.run_install()
     for k, v in res.items():
         print(f"  [{k}] {v}")

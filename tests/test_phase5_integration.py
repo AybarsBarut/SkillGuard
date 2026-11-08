@@ -87,7 +87,7 @@ class TestPhase5Integration(unittest.TestCase):
 
         # Verify Markdown structure
         md_text = md_file.read_text(encoding="utf-8")
-        self.assertIn("SKILLGUARD GÜVENLİK DENETİM RAPORU", md_text)
+        self.assertIn("GUVENLIK DENETIM RAPORU", md_text)
         self.assertIn("Genel Karar", md_text)
 
     def test_evals_benchmark(self):

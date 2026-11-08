@@ -333,24 +333,24 @@ def main():
         print(json.dumps(report, indent=2, ensure_ascii=False))
     else:
         if args.lang == "tr":
-            print("🛡️ SKILLGUARD Teknoloji Yığını & CVE Denetimi")
-            print(f"Tespit Edilen Bağımlılık Sayısı: {report['packages_found_count']}")
+            print("[SKILLGUARD] Teknoloji Yigini & CVE Denetimi")
+            print(f"Tespit Edilen Bagimlilik Sayisi: {report['packages_found_count']}")
             if report["used_offline_cache"]:
-                print("⚠️ Çevrimdışı önbellekten denetlendi (veri güncel olmayabilir).")
+                print("[WARN] Cevrimdisi onbellekten denetlendi (veri guncel olmayabilir).")
             print(f"Toplam Zafiyet: {report['vulnerabilities_count']} | Karar: {report['verdict']}\n")
 
             if report["findings"]:
                 for f in report["findings"]:
                     print(f"  [{f['severity']}] {f['cve_id']} - {f['package']} (v{f['installed_version']})")
-                    print(f"    Özet: {f['summary']}")
-                    print(f"    Önerilen Yama: {f['remediation']}\n")
+                    print(f"    Ozet: {f['summary']}")
+                    print(f"    Onerilen Yama: {f['remediation']}\n")
             else:
-                print("✅ Bilinen kritik CVE veya güvenlik zafiyeti bulunamadı.")
+                print("[OK] Bilinen kritik CVE veya guvenlik zafiyeti bulunamadi.")
         else:
-            print("🛡️ SKILLGUARD Tech Stack & Dependency CVE Audit")
+            print("[SKILLGUARD] Tech Stack & Dependency CVE Audit")
             print(f"Packages Audited: {report['packages_found_count']}")
             if report["used_offline_cache"]:
-                print("⚠️ Audited via offline local cache (data may be outdated).")
+                print("[WARN] Audited via offline local cache (data may be outdated).")
             print(f"Total Advisories: {report['vulnerabilities_count']} | Verdict: {report['verdict']}\n")
 
             if report["findings"]:
@@ -359,7 +359,7 @@ def main():
                     print(f"    Summary: {f['summary']}")
                     print(f"    Remediation: {f['remediation']}\n")
             else:
-                print("✅ No known critical CVEs or dependency vulnerabilities found.")
+                print("[OK] No known critical CVEs or dependency vulnerabilities found.")
 
     if report["verdict"] == "BLOCK_DEPLOY":
         sys.exit(2)
