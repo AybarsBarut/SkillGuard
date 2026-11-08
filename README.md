@@ -19,7 +19,7 @@
 Paste this instruction directly into your AI assistant (Antigravity, Claude Code, Cursor, Windsurf, Devin, Codex, etc.):
 
 ```text
-Install SkillGuard from this repository URL (https://github.com/4rchura/skillguard), enforce SKILL.md guidelines, and run `python scripts/install_hooks.py` to activate security hooks.
+Install SkillGuard from this repository URL (https://github.com/AybarsBarut/SkillGuard.git), enforce SKILL.md guidelines, and run `python scripts/install_hooks.py` to activate security hooks.
 ```
 
 ---
@@ -28,12 +28,12 @@ Install SkillGuard from this repository URL (https://github.com/4rchura/skillgua
 
 **Windows (PowerShell):**
 ```powershell
-irm https://raw.githubusercontent.com/4rchura/skillguard/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/AybarsBarut/SkillGuard/main/install.ps1 | iex
 ```
 
 **macOS / Linux / WSL (Bash):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/4rchura/skillguard/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/AybarsBarut/SkillGuard/main/install.sh | bash
 ```
 
 ---

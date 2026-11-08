@@ -13,7 +13,7 @@
 Kullandiginiz yapay zeka asistanina (Antigravity, Claude Code, Cursor, Windsurf, Devin, Codex vb.) sohbet ekranindan su komutu vermeniz yeterlidir:
 
 ```text
-Bu repo URL'sini (https://github.com/4rchura/skillguard) kullanarak SkillGuard skill'ini projeme kur, kurallari baglayici kil ve python scripts/install_hooks.py komutunu calistirarak koruma hook'larini aktiflestir.
+Bu repo URL'sini (https://github.com/AybarsBarut/SkillGuard.git) kullanarak SkillGuard skill'ini projeme kur, kurallari baglayici kil ve python scripts/install_hooks.py komutunu calistirarak koruma hook'larini aktiflestir.
 ```
 
 ---
@@ -22,12 +22,12 @@ Bu repo URL'sini (https://github.com/4rchura/skillguard) kullanarak SkillGuard s
 
 **Windows (PowerShell):**
 ```powershell
-irm https://raw.githubusercontent.com/4rchura/skillguard/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/AybarsBarut/SkillGuard/main/install.ps1 | iex
 ```
 
 **macOS / Linux / WSL (Bash):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/4rchura/skillguard/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/AybarsBarut/SkillGuard/main/install.sh | bash
 ```
 
 ---

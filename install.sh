@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SkillGuard One-Line Installer for Linux / macOS
-# Usage: curl -fsSL https://raw.githubusercontent.com/4rchura/skillguard/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/AybarsBarut/SkillGuard/main/install.sh | bash
 
 set -e
 
@@ -28,7 +28,7 @@ if [ -f "SKILL.md" ]; then
 else
     echo "[INFO] Cloning SkillGuard into: $TARGET_DIR"
     mkdir -p "$TARGET_DIR"
-    git clone --depth 1 https://github.com/4rchura/skillguard.git "$TARGET_DIR"
+    git clone --depth 1 https://github.com/AybarsBarut/SkillGuard.git "$TARGET_DIR"
 fi
 
 # 3. Run hook installer

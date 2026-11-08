@@ -1,5 +1,5 @@
 # SkillGuard One-Line Installer for Windows (PowerShell)
-# Usage: irm https://raw.githubusercontent.com/4rchura/skillguard/main/install.ps1 | iex
+# Usage: irm https://raw.githubusercontent.com/AybarsBarut/SkillGuard/main/install.ps1 | iex
 
 $ErrorActionPreference = "Stop"
 
@@ -24,7 +24,7 @@ if (Test-Path "SKILL.md") {
     New-Item -ItemType Directory -Force -Path $targetDir | Out-Null
     
     # Clone or fetch repo
-    $repoUrl = "https://github.com/4rchura/skillguard.git"
+    $repoUrl = "https://github.com/AybarsBarut/SkillGuard.git"
     git clone --depth 1 $repoUrl $targetDir
 }
 
