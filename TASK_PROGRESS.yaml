@@ -1,0 +1,88 @@
+# TASK_PROGRESS.yaml
+# Task and sprint tracking for SkillGuard according to Nexus-APCP standards.
+
+project: SkillGuard
+updated_at: "2026-11-08"
+current_sprint: "Nexus-APCP Protocol Alignment and Defense Integration"
+
+tasks:
+  - id: TASK-SG-001
+    title: "Phase 1 - Repository Architecture, Frontmatter, and Modular Policies"
+    status: COMPLETED
+    priority: critical
+    dependencies: []
+    acceptance_criteria:
+      - "SKILL.md defines frontmatter, Scanned Content = Data principle, and trust tiers."
+      - "Modular YAML policies in policy/rules/ cover prompt injection, exfiltration, persistence, and secrets."
+      - "Zero external dependencies: stdlib policy loader created."
+    verification:
+      - "python -m unittest tests.test_phase1_integrity"
+    notes: "Completed with 100% test coverage."
+
+  - id: TASK-SG-002
+    title: "Phase 2 - Quarantined Prompt Guard, AST Scanner, and Skill Lockfile Engine"
+    status: COMPLETED
+    priority: critical
+    dependencies: ["TASK-SG-001"]
+    acceptance_criteria:
+      - "prompt_guard.py quarantines untrusted content with boundary validation."
+      - "scan_skill.py performs AST static analysis and regex scanning with Shannon entropy."
+      - "skill_lock.py creates skillguard.lock with SHA-256 hash chaining."
+    verification:
+      - "python -m unittest tests.test_phase2_scanner_and_lock"
+    notes: "Verified against malicious test fixtures."
+
+  - id: TASK-SG-003
+    title: "Phase 3 - Git Pre-Commit/Pre-Push Sanitizer and Zero AI Stealth"
+    status: COMPLETED
+    priority: critical
+    dependencies: ["TASK-SG-002"]
+    acceptance_criteria:
+      - "sanitize_push.py blocks staged .env, keys, certificates, and database dumps."
+      - "Zero AI stealth rule blocks AI model contributor tags and branch naming."
+      - "Vault backup and single-command undo supported."
+    verification:
+      - "python -m unittest tests.test_phase3_sanitize_push"
+    notes: "Pre-push hook tests passing."
+
+  - id: TASK-SG-004
+    title: "Phase 4 - Database Exposure Guard and OSV Supply Chain Auditor"
+    status: COMPLETED
+    priority: high
+    dependencies: ["TASK-SG-003"]
+    acceptance_criteria:
+      - "db_guard.py detects hardcoded DB credentials, unparameterized SQL, and migration risks."
+      - "stack_audit.py checks PyPI, npm, Packagist, crates.io, Go against OSV.dev."
+      - "Offline cache fallback prevents network failures."
+    verification:
+      - "python -m unittest tests.test_phase4_db_and_stack"
+    notes: "Multi-ecosystem parser tested."
+
+  - id: TASK-SG-005
+    title: "Phase 5 - Hook Installer, SARIF Reporting, and Benchmark Evals"
+    status: COMPLETED
+    priority: high
+    dependencies: ["TASK-SG-004"]
+    acceptance_criteria:
+      - "install_hooks.py safely chains existing git and agent hooks."
+      - "report.py outputs Markdown, JSON, and OASIS SARIF v2.1.0."
+      - "9 eval benchmark scenarios achieve 100% score."
+    verification:
+      - "python evals/run_evals.py"
+      - "python -m unittest tests.test_phase5_integration"
+    notes: "37 unit tests and 9 benchmark evals pass."
+
+  - id: TASK-SG-006
+    title: "Nexus-APCP Protocol Alignment and Bidirectional Integration"
+    status: COMPLETED
+    priority: high
+    dependencies: ["TASK-SG-005"]
+    acceptance_criteria:
+      - "SkillGuard is registered in Nexus-APCP skill registry and universal security protocols."
+      - "SKILL.md defines Nexus-APCP integration and context file recognition."
+      - "PROJECT_CONTEXT.md and TASK_PROGRESS.yaml added to SkillGuard."
+      - "Zero emoji policy and zero AI stealth verified."
+    verification:
+      - "python -m unittest discover tests"
+      - "python evals/run_evals.py"
+    notes: "Bidirectional integration complete."

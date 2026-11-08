@@ -77,6 +77,12 @@ An AI skill is an instruction document for an LLM; **it is NOT an operating syst
 No AI agent is permitted to identify itself in commit messages, author/co-author metadata, branch names, or code comments.
 **Why?** When an attacker knows which specific AI model authored a project, they can launch targeted attacks exploiting that model's known blind spots, subtle hallucinations, and architectural biases.
 
+### Nexus-APCP Protocol Compatibility
+SkillGuard natively aligns with the [Nexus-APCP (AI Project Context Protocol)](https://github.com/AybarsBarut/Nexus-APCP):
+- **Context Awareness:** Recognizes `PROJECT_CONTEXT.md`, `AI_PROJECT_CONTEXT_PROTOCOL.md`, `AGENTS.md`, and `TASK_PROGRESS.yaml`.
+- **Safe Publishing:** Blocks accidental leakage of private prompt bundles (`PROMPT_READY.txt`) and `.codegraph/` indexes.
+- **Zero Emoji Invariant:** Follows strict zero-emoji styling matching Nexus-APCP `EMOJI_POLICY.md`.
+
 ---
 
 ## Repository Structure
@@ -84,6 +90,8 @@ No AI agent is permitted to identify itself in commit messages, author/co-author
 ```
 skillguard/
 ├── SKILL.md                  # Agent frontmatter and binding rules
+├── PROJECT_CONTEXT.md        # Nexus-APCP project identity and architecture
+├── TASK_PROGRESS.yaml        # Nexus-APCP task and sprint state
 ├── README.md                 # English primary documentation
 ├── README.tr.md              # Turkish documentation
 ├── SECURITY_REPORT.md        # Executive security audit summary

@@ -71,6 +71,12 @@ Bir AI skill'i LLM icin hazirlanmis talimat dosyasidir; **isletim sistemi seviye
 Hicbir yapay zeka agent'inin kendini commit mesajlarinda, yazar/katkici (co-author) meta-verilerinde, branch adlarinda veya kod yorumlarinda ifsa etmesine izin verilmez.
 **Neden?** Kodun hangi model tarafindan yazildigi bilindiginde saldirganlar o modele ozgu bilinen eksiklikleri, halusilasyon egilimlerini ve mimari kor noktalari hedef alarak projeye sizabilir.
 
+### Nexus-APCP Protokol Uyumlulugu
+SkillGuard, [Nexus-APCP (AI Project Context Protocol)](https://github.com/AybarsBarut/Nexus-APCP) ile yerel olarak cift yonlu uyumludur:
+- **Baglam Farkindaligi:** `PROJECT_CONTEXT.md`, `AI_PROJECT_CONTEXT_PROTOCOL.md`, `AGENTS.md` ve `TASK_PROGRESS.yaml` dosyalarini tanir ve korur.
+- **Guvenli Yayinlama:** Ozel istem paketlerinin (`PROMPT_READY.txt`) veya `.codegraph/` indekslerinin yanlislikla git reposuna gonderilmesini engeller.
+- **Sifir Emoji Kurali:** Nexus-APCP `EMOJI_POLICY.md` standardina tam uyumlu olarak hicbir emoji barindirmaz.
+
 ---
 
 ## Dizin Yapisi
@@ -78,6 +84,8 @@ Hicbir yapay zeka agent'inin kendini commit mesajlarinda, yazar/katkici (co-auth
 ```
 skillguard/
 ├── SKILL.md                  # Frontmatter ve baglayici agent kurallari
+├── PROJECT_CONTEXT.md        # Nexus-APCP proje kimligi ve mimarisi
+├── TASK_PROGRESS.yaml        # Nexus-APCP gorev ve sprint durumu
 ├── README.md                 # Ingilizce ana dokumantasyon
 ├── README.tr.md              # Turkce dokumantasyon
 ├── SECURITY_REPORT.md        # Yonetici guvenlik denetim raporu

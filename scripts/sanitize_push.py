@@ -39,6 +39,9 @@ FORBIDDEN_FILE_PATTERNS = [
     r".*\.(sql|sqlite|sqlite3|db|bak|dump)$",
     r".*\.har$",
     r"^\.npmrc$",
+    r"^PROMPT_READY.*\.txt$",
+    r"^\.codegraph/.*",
+    r"^\.vault/.*",
 ]
 
 EXEMPT_IP_PREFIXES = (
