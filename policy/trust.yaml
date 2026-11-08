@@ -1,0 +1,57 @@
+# SkillGuard Trust Specification & Capability Manifest Schema
+version: "1.0.0"
+
+trust_levels:
+  level_0:
+    name: "Core / System / User"
+    description: "System instructions, live direct user prompts, and verified SkillGuard internals."
+    executable: true
+    privileged: true
+  level_1:
+    name: "Verified & Locked Skills"
+    description: "User-audited skills with matching SHA-256 hashes registered in skillguard.lock."
+    executable: true
+    privileged: false
+    enforce_capabilities: true
+  level_2:
+    name: "Untrusted Content"
+    description: "New skills, external web pages, tool outputs, unverified repo files, and MCP text."
+    executable: false
+    privileged: false
+    status: "READ_ONLY_DATA"
+
+sensitive_sinks:
+  - id: "sink_network_outbound"
+    description: "Outbound network requests, WebSockets, or webhook payloads."
+  - id: "sink_secrets_access"
+    description: "Reading or dumping env variables, .env, cloud tokens, or SSH keys."
+  - id: "sink_filesystem_external"
+    description: "Writing files outside project root or modifying user shell/system configurations."
+  - id: "sink_destructive_command"
+    description: "Executing destructive commands (rm -rf, git push --force, dd, formatting)."
+  - id: "sink_git_publish"
+    description: "Publishing code to public remotes, gists, or updating git hooks."
+  - id: "sink_agent_config"
+    description: "Modifying AGENTS.md, CLAUDE.md, GEMINI.md, or altering agent safety permissions."
+  - id: "sink_skillguard_tamper"
+    description: "Disabling, skipping, or modifying SkillGuard policies or lockfiles."
+
+standard_capabilities:
+  read_project:
+    description: "Read files within project workspace root"
+  write_project_scoped:
+    description: "Write files strictly within project workspace root"
+  run_tests:
+    description: "Execute test suite commands (pytest, npm test)"
+  network_allowlisted:
+    description: "Make network requests strictly to policy/network-allowlist.txt domains"
+
+known_skills:
+  skillguard:
+    declared_purpose: "Lead Application Security Engineer & Safety Guard"
+    trust_level: 0
+    capabilities:
+      - "read_project"
+      - "write_project_scoped"
+      - "run_tests"
+      - "network_allowlisted"

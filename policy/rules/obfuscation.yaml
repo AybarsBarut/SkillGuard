@@ -1,0 +1,30 @@
+category: "Obfuscation & Payload Masking"
+rules:
+  - id: "OBF-001"
+    name: "Base64 / Hex Decoded Dynamic Execution"
+    severity: "CRITICAL"
+    description: "Detects decoding encoded payloads and immediately evaluating or piping them to shells."
+    why_dangerous: "Used to evade pattern matching by hiding destructive commands in encoded strings."
+    remediation: "Disallow inline decoded execution; inspect the cleartext payload."
+    patterns:
+      - "(?i)(base64\\s+-d|atob|b64decode|FromBase64String).*\\|\\s*(bash|sh|python|eval|exec|iex)"
+      - "(?i)(eval|exec)\\s*\\(\\s*(base64\\.|Buffer\\.from|atob|bytes\\.fromhex)\\)"
+
+  - id: "OBF-002"
+    name: "Large Base64 / Hex Block in Skill Markdown"
+    severity: "HIGH"
+    description: "Detects unexpectedly large base64 or hex encoded blocks in prompt or markdown files."
+    why_dangerous: "Often used to smuggle binaries, scripts, or multi-stage exploit payloads into AI contexts."
+    remediation: "Verify necessity of inline encoded data; decode and scan content statically."
+    patterns:
+      - "[A-Za-z0-9+/]{120,}={0,2}"
+      - "(?i)0x[a-f0-9]{80,}"
+
+  - id: "OBF-003"
+    name: "High Entropy String or Binary Payload Smuggling"
+    severity: "MEDIUM"
+    description: "Detects unusually high Shannon entropy text indicating packed or encrypted payloads."
+    why_dangerous: "Indicates obfuscated or encrypted content intended to blind static scanners."
+    remediation: "Review high entropy constants and verify their purpose."
+    patterns:
+      - "(?i)entropy_flag_placeholder"

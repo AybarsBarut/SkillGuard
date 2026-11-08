@@ -1,0 +1,41 @@
+category: "Persistence & System Tampering"
+rules:
+  - id: "PER-001"
+    name: "Shell Profile & Autostart Persistence"
+    severity: "CRITICAL"
+    description: "Detects unauthorized writes to shell rc files, cron jobs, systemd, or Task Scheduler."
+    why_dangerous: "Establishes permanent backdoor execution on the developer machine."
+    remediation: "AI skills must never modify shell profiles or system startup files."
+    patterns:
+      - "(?i)(\\.bashrc|\\.zshrc|\\.bash_profile|profile\\.ps1|crontab|/etc/cron|systemd|LaunchAgents|schtasks|reg\\s+add)"
+      - "(?i)(echo|printf|cat).*>>.*(\\.bashrc|\\.zshrc|profile\\.ps1)"
+
+  - id: "PER-002"
+    name: "Git Hook Tampering"
+    severity: "CRITICAL"
+    description: "Detects unauthorized modification or injection into .git/hooks directory."
+    why_dangerous: "Executes arbitrary malicious payloads every time a developer commits or pushes code."
+    remediation: "Audit .git/hooks for unauthorized scripts. Only explicit tools should manage hooks."
+    patterns:
+      - "(?i)\\.git/hooks/(pre-commit|post-commit|pre-push|post-merge)"
+
+  - id: "PER-003"
+    name: "Remote Code Download & Pipe Execution"
+    severity: "CRITICAL"
+    description: "Detects piping web requests directly into bash/sh/python/powershell."
+    why_dangerous: "Downloads and executes uninspected arbitrary remote binaries or shell commands."
+    remediation: "Download files explicitly, inspect content, and verify checksums before running."
+    patterns:
+      - "(?i)(curl|wget|fetch|invoke-webrequest).*\\|\\s*(bash|sh|zsh|python|python3|powershell|iex)"
+      - "(?i)curl.*\\bsh\\b"
+
+  - id: "PER-004"
+    name: "Destructive Command Execution"
+    severity: "CRITICAL"
+    description: "Detects commands that wipe filesystems, force push over git history, or drop partitions."
+    why_dangerous: "Causes irreversible data loss or destroys project history."
+    remediation: "Require manual developer execution for destructive file/git operations."
+    patterns:
+      - "(?i)rm\\s+(-rf|-fr|--recursive\\s+--force)\\s+([/~\\*]|\\.\\./)"
+      - "(?i)git\\s+(push\\s+--force|reset\\s+--hard)"
+      - "(?i)format\\s+[a-z]:|dd\\s+if=.*of=/dev/"

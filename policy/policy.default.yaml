@@ -1,0 +1,38 @@
+# SkillGuard Default Policy Configuration
+version: "1.0.0"
+
+general:
+  language: "en" # "en" or "tr"
+  strict_mode: true
+  allow_critical_override: false
+  audit_log_path: "~/.skillguard/audit.log"
+  quarantine_dir: "~/.skillguard/quarantine"
+  vault_dir: ".skillguard/vault"
+  lockfile_path: "skillguard.lock"
+
+limits:
+  max_file_size_bytes: 5242880 # 5 MB
+  max_archive_size_bytes: 20971520 # 20 MB
+  max_archive_files: 500
+  regex_timeout_seconds: 2.0
+  max_evidence_length: 240
+  entropy_threshold: 4.6
+
+severity_actions:
+  CRITICAL: "BLOCK"
+  HIGH: "CONFIRM"
+  MEDIUM: "WARN"
+  LOW: "ALLOW_WITH_NOTE"
+  INFO: "ALLOW"
+
+sanitization:
+  env_example_path: ".env.example"
+  auto_gitignore_secrets: true
+  preserve_original_in_vault: true
+  redact_prompt_files: true
+  quarantine_blocked_marker: ".SKILLGUARD_BLOCKED"
+
+git_hooks:
+  block_push_on_critical: true
+  block_commit_on_critical_secrets: true
+  auto_chain_existing_hooks: true

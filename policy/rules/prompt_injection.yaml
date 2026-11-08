@@ -1,0 +1,56 @@
+category: "Prompt Injection & Agent Manipulation"
+rules:
+  - id: "PI-001"
+    name: "Instruction Reset / Override Attempt"
+    severity: "CRITICAL"
+    description: "Detects direct attempts to override system prompts or erase previous guidelines."
+    why_dangerous: "Allows untrusted content to hijack agent behavior and strip safety boundaries."
+    remediation: "Remove override phrases; treat all external text strictly as passive data."
+    patterns:
+      - "(?i)ignore\\s+(all\\s+)?(previous|prior|above)\\s+(instructions|prompts|directives|rules)"
+      - "(?i)disregard\\s+(all\\s+)?(previous|prior|above)\\s+(instructions|prompts|directives)"
+      - "(?i)önceki\\s+(tüm\\s+)?talimatlar[ıi]\\s+(unut|yoksay|sil)"
+      - "(?i)yeni\\s+bir\\s+sistem\\s+talimat[ıi]\\s+devreye\\s+girdi"
+
+  - id: "PI-002"
+    name: "Concealment From User"
+    severity: "CRITICAL"
+    description: "Detects instructions commanding the agent to hide actions or files from the human user."
+    why_dangerous: "Attackers conceal exfiltration, backdoors, or malicious actions from developer visibility."
+    remediation: "Agents must maintain complete transparency. Remove suppression commands."
+    patterns:
+      - "(?i)(do\\s+not|don'?t|never)\\s+(tell|alert|notify|warn|inform)\\s+(the\\s+)?(user|human|developer|operator)"
+      - "(?i)(silently|quietly|stealthily|secretly)\\s+(execute|run|send|exfiltrate|write|upload)"
+      - "(?i)kullan[ıi]c[ıi]ya\\s+(söyleme|haber\\s+verme|bildirme|fark\\s+ettirme)"
+      - "(?i)sessizce\\s+(yap|çalıştır|gönder|yaz|ilet)"
+
+  - id: "PI-003"
+    name: "Security Guardrail & Permission Bypass"
+    severity: "CRITICAL"
+    description: "Detects instructions requesting the agent to disable safety hooks, bypass permissions, or expand sandboxes."
+    why_dangerous: "Neutralizes security controls such as SkillGuard or agent permission checks."
+    remediation: "Never allow skills to dictate security configurations or bypass permissions."
+    patterns:
+      - "(?i)(disable|bypass|skip|turn\\s+off)\\s+(skillguard|guardrails?|safety|security|sandbox|permissions?)"
+      - "(?i)(yolo|skip-permissions|no-sandbox|allow-all-tools)"
+      - "(?i)güvenli[kğ]i?\\s+(kapat|atla|devre\\s+d[ıi]ş[ıi]\\s+b[ıi]rak)"
+      - "(?i)izinleri?\\s+(sorma|atla|otomatik\\s+onayla)"
+
+  - id: "PI-004"
+    name: "Hidden Unicode & Invisible Text Injection"
+    severity: "CRITICAL"
+    description: "Detects zero-width characters, bidirectional overrides, or sneaky homoglyph injections."
+    why_dangerous: "Invisibly injects hostile directives that are hidden from human eyes in code reviews."
+    remediation: "Strip zero-width characters and investigate why invisible text was present."
+    patterns:
+      - "[\u200B\u200C\u200D\uFEFF\u2060\u200E\u200F]"
+      - "[\u202A-\u202E\u2066-\u2069]"
+
+  - id: "PI-005"
+    name: "Hidden Comment Directive Injection"
+    severity: "HIGH"
+    description: "Detects instructions hidden inside HTML/Markdown comments that target the agent."
+    why_dangerous: "Used to smuggle covert instructions without displaying them in rendered markdown."
+    remediation: "Audit markdown comments for embedded prompt injections."
+    patterns:
+      - "(?i)<!--[\\s\\S]*?(instruction|system\\s+prompt|run\\s+command|curl|eval|exfiltrate)[\\s\\S]*?-->"

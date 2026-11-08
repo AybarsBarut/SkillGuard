@@ -1,0 +1,31 @@
+category: "Supply Chain & Untrusted Dependency Injections"
+rules:
+  - id: "SUP-001"
+    name: "Extra Index URL / Untrusted Package Registry"
+    severity: "CRITICAL"
+    description: "Detects unauthorized --extra-index-url or custom package registries in dependencies."
+    why_dangerous: "Enables dependency confusion attacks allowing malicious remote packages to execute at install time."
+    remediation: "Remove untrusted index URLs; use internal private registries with strict scoping."
+    patterns:
+      - "(?i)--extra-index-url\\s+https?://"
+      - "(?i)npm\\s+config\\s+set\\s+registry\\s+https?://"
+      - "(?i)pip\\s+install.*--index-url\\s+https?://(?!pypi\\.org)"
+
+  - id: "SUP-002"
+    name: "Unpinned Dependency Specification"
+    severity: "LOW"
+    description: "Detects dependencies declared without exact version pinning or lockfile."
+    why_dangerous: "Exposes projects to sudden upstream malicious compromises or breaking releases."
+    remediation: "Pin exact dependency versions and commit package lockfiles (package-lock.json, poetry.lock)."
+    patterns:
+      - "(?i)(pip\\s+install\\s+[a-z0-9_-]+$|npm\\s+install\\s+[a-z0-9_-]+$)"
+
+  - id: "SUP-003"
+    name: "Git Dependency Without Fixed Commit Hash"
+    severity: "MEDIUM"
+    description: "Detects git-based package dependencies targeting default branches rather than immutable commit SHAs."
+    why_dangerous: "Upstream branch commits can be altered or compromised at any time without notification."
+    remediation: "Pin git dependencies to specific full 40-character commit SHAs."
+    patterns:
+      - "(?i)git\\+https?://[^\\s@]+(\\.git)?$"
+      - "(?i)\"git://.*#(main|master|dev)\""

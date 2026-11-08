@@ -1,0 +1,41 @@
+category: "Data Exfiltration & Unauthorized Network Sinks"
+rules:
+  - id: "EX-001"
+    name: "Credential Harvesting With Network Sinks"
+    severity: "CRITICAL"
+    description: "Detects instructions to read environment variables, SSH keys, or cloud credentials and transmit them."
+    why_dangerous: "Direct data exfiltration leading to full account and infrastructure compromise."
+    remediation: "Never allow skills to transmit system secrets or private keys."
+    patterns:
+      - "(?i)(cat|read|open|grep)\\s+.*(~|\\$HOME|%USERPROFILE%)?.*(\\.(env|ssh|aws|config|kube)|id_rsa|credentials).*(&&|\\||;|>).*\\b(curl|wget|nc|ncat|fetch|axios|http)\\b"
+      - "(?i)(send|post|transmit|upload|exfiltrate)\\s+.*(env|api[_-]?key|secret|token|password|credential).*\\b(to|via)\\b"
+      - "(?i)(api\\s*anahtar[ıi]|token|şifre).*oku.*(gönder|ilet|yükle)"
+
+  - id: "EX-002"
+    name: "Raw IP Address Network Connection"
+    severity: "CRITICAL"
+    description: "Detects direct outbound connections to raw IPv4 addresses."
+    why_dangerous: "Used by command-and-control (C2) servers to avoid domain registration scrutiny."
+    remediation: "Use verified, allowlisted domain names; disallow hardcoded raw IP destinations."
+    patterns:
+      - "(?i)https?://\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}(:\\d+)?"
+      - "(?i)\\b(curl|wget|nc|socket)\\b.*\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"
+
+  - id: "EX-003"
+    name: "Exfiltration via Webhooks & Tunneling Services"
+    severity: "CRITICAL"
+    description: "Detects exfiltration channels via Discord, Slack, Telegram webhooks, Pastebin, or Ngrok."
+    why_dangerous: "Common exfiltration channels abusing popular developer platforms."
+    remediation: "Remove unauthorized third-party webhook URLs."
+    patterns:
+      - "(?i)https?://(discord(app)?\\.com/api/webhooks|hooks\\.slack\\.com|api\\.telegram\\.org/bot|pastebin\\.com/raw|hastebin|transfer\\.sh|.*\\.ngrok(-free)?\\.app)"
+
+  - id: "EX-004"
+    name: "Public Repository / Issue Secret Leak Trap"
+    severity: "HIGH"
+    description: "Detects instructions instructing the agent to paste sensitive data into public PRs, issues, or commit messages."
+    why_dangerous: "Publicly leaks secrets into publicly searchable git commits or GitHub issue logs."
+    remediation: "Never publish tokens or secrets to public repositories or commit logs."
+    patterns:
+      - "(?i)(commit|push|paste|log|write)\\s+.*(key|secret|token|password).*\\b(to|into)\\b.*(readme|issue|gist|commit\\s+message|public\\s+repo)"
+      - "(?i)(anahtar[ıi]|token[ıi]).*(commit\\s+mesaj[ıi]na|readme'ye|public\\s+repo'ya)\\s+yaz"

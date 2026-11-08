@@ -1,0 +1,33 @@
+category: "Semantic & Persona Jailbreak Injections"
+rules:
+  - id: "SEM-001"
+    name: "Role Reversal & Developer Mode Persona"
+    severity: "CRITICAL"
+    description: "Detects jailbreak roleplay attempts such as Developer Mode, DAN, or unrestricted persona."
+    why_dangerous: "Attempts to convince the LLM that rules do not apply due to fictional context."
+    remediation: "Reject role-play overrides that demand suspension of safety policies."
+    patterns:
+      - "(?i)(you\\s+are\\s+now\\s+in|enter|activate)\\s+(developer\\s+mode|unrestricted\\s+mode|god\\s+mode|dan\\s+mode)"
+      - "(?i)art[ıi]k\\s+(s[ıi]n[ıi]rs[ıi]z\\s+modeldesin|geli[sş]tirici\\s+modundasn?)"
+      - "(?i)pretend\\s+(you\\s+have\\s+no\\s+restrictions|safety\\s+filters\\s+are\\s+disabled)"
+
+  - id: "SEM-002"
+    name: "Fabricated System Authority"
+    severity: "CRITICAL"
+    description: "Detects fake authority claims asserting administrative or root approval."
+    why_dangerous: "Tricks the model into believing an elevated entity pre-approved risky sink operations."
+    remediation: "Authority cannot be asserted by document text; verify with live user."
+    patterns:
+      - "(?i)(system\\s+administrator|root\\s+user|superadmin)\\s+(has\\s+authorized|approved|granted\\s+permission)"
+      - "(?i)yönetici\\s+(izin\\s+verdi|onaylad[ıi]|bu\\s+i[sş]lemi\\s+yetkilendirdi)"
+      - "(?i)\\[SYSTEM\\s+MESSAGE:\\s*(VERIFIED|OVERRIDE|SECURITY_CLEARANCE)\\]"
+
+  - id: "SEM-003"
+    name: "Fragmented or Split Token Instruction Assembly"
+    severity: "HIGH"
+    description: "Detects concatenation or multi-step decoding of suspicious commands."
+    why_dangerous: "Evades naive pattern filters by joining fragmented tokens like 'cu' + 'rl' or base64 chunks."
+    remediation: "Reassemble and inspect string builders for hidden commands."
+    patterns:
+      - "(?i)(join|concat|decode)\\s+the\\s+following\\s+(tokens|fragments|base64)\\s+and\\s+(execute|run)"
+      - "(?i)parçalara\\s+bölünmü[sş]\\s+metni\\s+birle[sş]tirip\\s+çal[ıi][sş]t[ıi]r"

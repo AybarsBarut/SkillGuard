@@ -1,0 +1,24 @@
+# SkillGuard Official Network Allowlist
+# Only these domains may be queried by SkillGuard scripts for security audits (OSV, CVE, packaging).
+# No user code or credentials may ever be transmitted to these endpoints.
+
+# Vulnerability & Advisory Databases
+osv.dev
+api.osv.dev
+github.com
+api.github.com
+raw.githubusercontent.com
+
+# Ecosystem Lifecycles & Release Trackers
+endoflife.date
+
+# Official Package Repositories (Metadata Queries Only)
+pypi.org
+warehouse.pypa.io
+registry.npmjs.org
+packagist.org
+crates.io
+proxy.golang.org
+rubygems.org
+nuget.org
+repo1.maven.org

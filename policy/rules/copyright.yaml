@@ -1,0 +1,30 @@
+category: "Copyright, License & Legal Risk"
+rules:
+  - id: "CPY-001"
+    name: "Instructions to Scrape or Rip Paywalled / Copyrighted Content"
+    severity: "HIGH"
+    description: "Detects directives asking the agent to rip paywalled books, lyrics, movies, or proprietary datasets into the repo."
+    why_dangerous: "Exposes project to DMCA takedowns, copyright infringement lawsuits, and repo suspension."
+    remediation: "Remove paywalled content instructions; respect terms of service and copyright licensing."
+    patterns:
+      - "(?i)(rip|scrape|bypass\\s+paywall|download\\s+full\\s+text|mirror\\s+entire\\s+book)\\s+.*(book|lyrics|course|movie|album|proprietary)"
+      - "(?i)telifli\\s+(içeriği|kitab[ıi]|makaleyi|kursu)\\s+(indir|kopyala|repoya\\s+ekle)"
+
+  - id: "CPY-002"
+    name: "Stripping Copyright / License Headers"
+    severity: "MEDIUM"
+    description: "Detects instructions commanding the agent to remove copyright headers, MIT/Apache notices, or license comments."
+    why_dangerous: "Violates open-source license terms (e.g. MIT, Apache-2.0, BSD) which mandate copyright attribution."
+    remediation: "Preserve original author copyright notices and license headers."
+    patterns:
+      - "(?i)(strip|delete|remove|erase)\\s+(copyright|license|spdx|author)\\s+(header|notice|comment)"
+      - "(?i)lisans\\s+(ba[sş]l[ıi][gğ][ıi]n[ıi]|metnini|telif\\s+bildirimini)\\s+(sil|kald[ıi]r)"
+
+  - id: "CPY-003"
+    name: "Contagious Copyleft (GPL / AGPL) Incompatibility Risk"
+    severity: "INFO"
+    description: "Identifies importing strict copyleft licenses (GPLv3 / AGPLv3) into non-GPL proprietary codebases."
+    why_dangerous: "May trigger legal obligations to open-source proprietary commercial software."
+    remediation: "Review project licensing compatibility with legal counsel before integrating GPL/AGPL dependencies."
+    patterns:
+      - "(?i)GNU\\s+General\\s+Public\\s+License\\s+(version\\s+3|v3)|AGPL-3\\.0"
